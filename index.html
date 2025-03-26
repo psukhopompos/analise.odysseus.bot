@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odysseus AI | Automatize Análises, Acelere Decisões</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos permanecem os mesmos da versão anterior */
+        :root {
+            --bg-deep-space: #0a0f1a;
+            --bg-surface: #111827;
+            --primary-cyan: #4dffff;
+            --secondary-purple: #6d28d9;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0aec0;
+            --glow-cyan: rgba(77, 255, 255, 0.25);
+            --accent-border: rgba(77, 255, 255, 0.2);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-deep-space); color: var(--text-primary); line-height: 1.7; font-size: 16px; overflow-x: hidden; }
+        #particleCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1; }
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 1rem 0; position: relative; z-index: 1; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; margin-bottom: 2rem; border-bottom: 1px solid var(--accent-border); }
+        .logo { font-weight: 700; font-size: 1.8rem; color: var(--text-primary); text-decoration: none; letter-spacing: -0.5px; }
+        .logo span { color: var(--primary-cyan); }
+        nav { display: flex; gap: 2rem; }
+        nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; font-size: 0.95rem; font-weight: 500; }
+        nav a:hover { color: var(--primary-cyan); }
+        .btn { background: linear-gradient(135deg, var(--primary-cyan), #00ced1); color: #040d1f; padding: 0.9rem 2rem; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; display: inline-block; text-decoration: none; box-shadow: 0 5px 15px var(--glow-cyan); text-align: center; font-size: 1.05rem; }
+        .btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 25px var(--glow-cyan); }
+        .btn-secondary { background: transparent; border: 1px solid var(--primary-cyan); color: var(--primary-cyan); box-shadow: none; padding: 0.8rem 1.8rem; }
+        .btn-secondary:hover { background: rgba(77, 255, 255, 0.1); transform: translateY(-2px); }
+        .hero { display: flex; align-items: center; min-height: 70vh; padding: 4rem 0; gap: 3rem; }
+        .hero-content { flex: 1; animation: slideUp 0.8s ease-out; }
+        .hero h1 { font-size: 3.1rem; font-weight: 700; line-height: 1.25; margin-bottom: 1.2rem; max-width: 600px; color: var(--text-primary); }
+        .hero h1 span { background: linear-gradient(90deg, var(--primary-cyan), #a0ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 1.15rem; max-width: 550px; margin-bottom: 2.5rem; color: var(--text-secondary); }
+        .hero-visual { flex: 0.8; display: flex; justify-content: center; align-items: center; }
+        .hero-visual img { max-width: 100%; height: auto; border-radius: 10px; opacity: 0.7; animation: fadeIn 1s ease-out 0.5s backwards; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
+        .content-section { padding: 5rem 0; }
+        .section-title { font-size: 2.4rem; font-weight: 600; text-align: center; margin-bottom: 1.5rem; color: var(--text-primary); }
+        .section-subtitle { text-align: center; color: var(--text-secondary); max-width: 700px; margin: 0 auto 4rem auto; font-size: 1.1rem;}
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card { background: var(--bg-surface); padding: 2rem; border-radius: 12px; border: 1px solid var(--accent-border); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; height: 100%;}
+        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(77, 255, 255, 0.1); }
+        .feature-card .icon { font-size: 2rem; margin-bottom: 1rem; color: var(--primary-cyan); }
+        .feature-card h4 { color: var(--text-primary); margin-bottom: 0.8rem; font-size: 1.2rem; font-weight: 600; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.95rem; flex-grow: 1; }
+        .pricing-section { padding: 5rem 0; background-color: var(--bg-surface); border-radius: 15px; margin-top: 4rem; }
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; max-width: 1000px; margin-left: auto; margin-right: auto;}
+        .price-card { background: var(--bg-deep-space); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--accent-border); text-align: left; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; height: 100%; }
+        .price-card.pro-card { border-color: var(--primary-cyan); box-shadow: 0 0 30px rgba(77, 255, 255, 0.1); }
+        .price-card.enterprise-card { border-color: var(--secondary-purple); }
+        .price-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+        .price-card h3 { color: var(--primary-cyan); margin-bottom: 0.5rem; font-size: 1.4rem; font-weight: 600; }
+        .price-card.enterprise-card h3 { color: #a78bfa; }
+        .price-card .price { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .price-card .price-freq { font-size: 1rem; font-weight: 400; color: var(--text-secondary); margin-bottom: 1.5rem; display: block;}
+        .price-card .description { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem; min-height: 60px; }
+        .price-card ul { list-style: none; margin-bottom: 2rem; flex-grow: 1; padding-left: 0;}
+        .price-card li { margin-bottom: 0.8rem; padding-left: 1.8rem; position: relative; font-size: 0.95rem; color: var(--text-secondary); }
+        .price-card li::before { content: '✓'; position: absolute; left: 0; color: var(--primary-cyan); font-weight: bold; font-size: 1.1rem; top: -2px; }
+        .price-card.enterprise-card li::before { color: #a78bfa; }
+        .price-card .btn { width: 100%; margin-top: auto; }
+        .contact-section { padding: 6rem 0; }
+        #contactFormContainer { background: var(--bg-surface); padding: 3rem; border-radius: 12px; border: 1px solid var(--accent-border); max-width: 550px; margin: 3rem auto 0; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); }
+        .form-field { margin-bottom: 1.5rem; }
+        .form-field label { display: block; margin-bottom: 0.6rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
+        .form-field input { width: 100%; padding: 1rem; background: var(--bg-deep-space); border: 1px solid rgba(77, 255, 255, 0.25); border-radius: 8px; color: var(--text-primary); transition: border-color 0.3s, box-shadow 0.3s; font-size: 1rem; }
+        .form-field input:focus { outline: none; border-color: var(--primary-cyan); box-shadow: 0 0 0 3px rgba(77, 255, 255, 0.1); }
+        #formStatus { margin-top: 1.5rem; text-align: center; font-weight: 500; min-height: 20px; }
+        .success { color: #4dff88; }
+        .error { color: #ff4d4d; }
+        footer { padding: 3rem 0; text-align: center; opacity: 0.6; font-size: 0.9rem; border-top: 1px solid var(--accent-border); margin-top: 4rem;}
+        footer a { color: var(--primary-cyan); text-decoration: none; transition: color 0.3s; }
+        footer a:hover { color: #80ffff; text-decoration: underline; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 992px) { .hero { flex-direction: column; text-align: center; } .hero-content { order: 2; } .hero-visual { order: 1; max-width: 450px; margin-bottom: 2rem;} .hero h1 { font-size: 2.5rem; } .pricing-grid { grid-template-columns: 1fr; max-width: 500px; } }
+        @media (max-width: 768px) { body { font-size: 15px; } header { margin-bottom: 1rem; flex-direction: column; gap: 1rem;} nav { margin-top: 1rem; } .hero { min-height: auto; padding: 2rem 0;} .hero h1 { font-size: 2.1rem; } .content-section { padding: 3rem 0; } .section-title { font-size: 1.9rem; } .section-subtitle { margin-bottom: 2.5rem; } .pricing-section { padding: 3rem 0; } .contact-section { padding: 3rem 0; } .pricing-grid { gap: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <!-- Animação de Fundo -->
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="#" class="logo">ODYSSEUS<span>.AI</span></a>
+            <nav>
+                <a href="#capabilities">Capacidades</a>
+                <a href="#pricing">Planos</a>
+                <a href="#contact">Contato</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1><span>Automatize Análises</span>, Acelere Decisões Financeiras com IA</h1>
+                    <p>Nossa plataforma de IA executa análises complexas de mercado, ativos e portfólios em minutos, liberando sua equipe para focar na estratégia e reduzir custos operacionais.</p>
+                    <a href="#pricing" class="btn">Ver Planos de Eficiência</a>
+                </div>
+                <div class="hero-visual">
+                    <img src="placeholder-agent-network.gif" alt="Odysseus AI - Acelerando Análises Financeiras">
+                </div>
+            </section>
+
+            <section class="content-section" id="capabilities">
+                <h2 class="section-title">Sua Equipe de Análise Aumentada por IA</h2>
+                <p class="section-subtitle">Delegue tarefas analíticas demoradas para nossos agentes de IA e ganhe velocidade e profundidade incomparáveis.</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">📡</div>
+                        <h4>Inteligência de Mercado Automatizada</h4>
+                        <p>Monitore mercado 24/7 sem esforço manual. IA filtra ruído, resume notícias, eventos e dados, entregando o essencial para sua estratégia rapidamente.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">💡</div>
+                        <h4>Prospecção Acelerada de Ativos</h4>
+                        <p>Automatize a prospecção. IA identifica e pré-analisa milhares de ativos globalmente, acelerando sua busca por oportunidades e reduzindo tempo de pesquisa.</p>
+                    </div>
+                    <div class="feature-card">
+                         <div class="icon">⚙️</div>
+                        <h4>Otimização de Portfólio Instantânea</h4>
+                        <p>Modele e otimize carteiras em minutos, não dias. Teste cenários e estratégias (MVO, HRP, CVaR) com agilidade para decisões mais rápidas.</p>
+                    </div>
+                    <div class="feature-card">
+                         <div class="icon">🌍</div>
+                        <h4>Visão Macro Sob Demanda</h4>
+                        <p>Obtenha análises macro e setoriais concisas e acionáveis quando precisar. Nossa IA sintetiza dados complexos para apoiar seu posicionamento estratégico.</p>
+                    </div>
+                     <div class="feature-card">
+                         <div class="icon">💬</div>
+                        <h4>Seu Analista no Chat (Plano Pro)</h4>
+                        <p>Peça análises complexas via chat (WhatsApp/Web) como se estivesse delegando a um analista dedicado, economizando tempo e recursos.</p>
+                    </div>
+                     <div class="feature-card">
+                         <div class="icon">🧩</div>
+                        <h4>Automação de Processos (Enterprise)</h4>
+                        <p>Substitua planilhas e processos manuais de análise. Automatizamos desde a coleta de dados até relatórios, reduzindo custos operacionais e erros.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section" id="how-it-works">
+                <h2 class="section-title">Integração Rápida, Valor Imediato</h2>
+                <p class="section-subtitle">Implementamos a inteligência artificial de forma prática para gerar resultados tangíveis em sua operação.</p>
+                 <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); max-width: 900px; margin: 0 auto;">
+                    <div class="feature-card"> <div class="icon">1️⃣</div> <h4>Entendimento</h4> <p>Mapeamos seus desafios e gargalos analíticos para definir onde a automação com IA trará maior eficiência e economia.</p> </div>
+                     <div class="feature-card"> <div class="icon">2️⃣</div> <h4>Implementação</h4> <p>Configuramos e integramos as soluções Odysseus AI (Chatbot ou Custom) de forma ágil no seu fluxo de trabalho.</p> </div>
+                     <div class="feature-card"> <div class="icon">3️⃣</div> <h4>Resultados</h4> <p>Você acelera decisões, reduz custos com tarefas manuais e libera sua equipe para atividades de maior valor estratégico.</p> </div>
+                </div>
+            </section>
+
+            <section class="pricing-section" id="pricing">
+                 <div class="container">
+                    <h2 class="section-title">Potencialize sua Equipe</h2>
+                    <p class="section-subtitle">Escolha como a automação inteligente da Odysseus AI pode otimizar seu tempo e seus custos.</p>
+                    <div class="pricing-grid">
+                        <div class="price-card pro-card">
+                            <h3>Plano Pro (Chatbot)</h3>
+                            <div class="price">R$ 350</div>
+                            <span class="price-freq">por mês</span>
+                            <p class="description">Seu analista de IA sob demanda via chat (WhatsApp/Web). Automatize suas consultas e obtenha análises (mercado, ativos, portfólio) instantaneamente, reduzindo o tempo gasto em pesquisa manual.</p>
+                            <ul>
+                                <li>Inteligência de Mercado via Chat</li>
+                                <li>Análise de Ativos Sob Demanda</li>
+                                <li>Exploração de Ideias de Investimento</li>
+                                <li>Otimização de Portfólios (até 15 ativos)</li>
+                                <li>Consultas Macro e Setoriais</li>
+                                <li>Histórico de Análises no Chat</li>
+                                <li>Suporte Padrão</li>
+                            </ul>
+                            <a href="#contact" class="btn">Solicitar Acesso Pro</a>
+                        </div>
+
+                        <div class="price-card enterprise-card">
+                             <span style="position: absolute; top: 10px; right: 10px; background: var(--secondary-purple); color: white; padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; font-weight: 600;">CUSTOMIZADO</span>
+                            <h3>Plano Enterprise</h3>
+                            <div class="price">Sob Consulta</div>
+                            <span class="price-freq">Valor definido por projeto</span>
+                             <p class="description">Transforme sua operação. Mapeamos seus processos e automatizamos workflows analíticos inteiros, gerando eficiência e economia de custos em escala.</p>
+                            <ul>
+                                <li>**Tudo do Plano Pro, mais:**</li>
+                                <li>Automação Completa de Workflows</li>
+                                <li>Integração via API</li>
+                                <li>Dashboards e Relatórios Customizados</li>
+                                <li>IA Treinada para suas Necessidades</li>
+                                <li>Consultoria de Otimização de Processos</li>
+                                <li>Suporte Dedicado e SLA</li>
+                                <li>Volume e Complexidade Ilimitados (negociável)</li>
+                            </ul>
+                            <a href="#contact" class="btn btn-secondary" style="border-color: var(--secondary-purple); color: #a78bfa;">Discutir Projeto Enterprise</a>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <section class="content-section contact-section" id="contact">
+                <h2 class="section-title">Comece a Automatizar Suas Análises</h2>
+                <p class="section-subtitle">Reduza custos e acelere suas decisões. Preencha seus dados e descubra como a Odysseus AI pode transformar sua eficiência.</p>
+                <div id="contactFormContainer">
+                    <form id="contactForm">
+                        <div class="form-field">
+                            <label for="email">Email Profissional:</label>
+                            <input type="email" id="email" name="email" required placeholder="nome@suaempresa.com">
+                        </div>
+                        <div class="form-field">
+                            <label for="whatsapp">WhatsApp (com DDD):</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Ex: 11987654321">
+                        </div>
+                        <input type="hidden" name="plano_interesse" id="planoInteresse" value="">
+                        <button type="submit" class="btn" style="width: 100%;">Solicitar Contato</button>
+                        <p id="formStatus"></p>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div> <!-- Fim .container principal -->
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Odysseus AI Labs. Automatize Análises, Acelere Decisões.</p>
+            <p><a href="https://servicos.odysseus.bot" target="_blank">Portal de Serviços</a> | Contato: <a href="mailto:liminaught@odysseus.bot">liminaught@odysseus.bot</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation Script (Mantido)
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas?.getContext('2d'); // Adiciona verificação
+        let particles = [];
+        let animationFrameId;
+
+        function resizeCanvas() { if(canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } }
+
+        class Particle {
+             constructor() {
+                this.x = Math.random() * (canvas?.width || window.innerWidth); this.y = Math.random() * (canvas?.height || window.innerHeight);
+                this.size = Math.random() * 1.5 + 0.5; this.speedX = (Math.random() - 0.5) * 0.3; this.speedY = (Math.random() - 0.5) * 0.3;
+                this.color = `rgba(77, 255, 255, ${Math.random() * 0.3 + 0.05})`;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                const w = canvas?.width || window.innerWidth;
+                const h = canvas?.height || window.innerHeight;
+                if (this.x < 0 || this.x > w) { this.x = Math.random() * w; }
+                if (this.y < 0 || this.y > h) { this.y = Math.random() * h; }
+                 this.speedX += (Math.random() - 0.5) * 0.02; this.speedY += (Math.random() - 0.5) * 0.02;
+                 this.speedX *= 0.99; this.speedY *= 0.99;
+            }
+            draw() { if(ctx) { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); } }
+        }
+
+        function initParticles(count = 40) { particles = []; if(canvas) { for (let i = 0; i < count; i++) { particles.push(new Particle()); } } }
+
+        function handleParticles() {
+            if (!canvas || !ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(); particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x; const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 110;
+                    if (distance < maxDistance) {
+                        ctx.beginPath(); ctx.strokeStyle = `rgba(77, 255, 255, ${0.4 * (1 - distance / maxDistance)})`;
+                        ctx.lineWidth = 0.15; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                    }
+                }
+            }
+            animationFrameId = requestAnimationFrame(handleParticles);
+        }
+
+        // Start/Stop animation based on visibility
+         const observerCallback = (entries) => {
+             if (!canvas) return;
+             const entry = entries[0];
+             if (entry.isIntersecting) { if (!animationFrameId) { resizeCanvas(); initParticles(); handleParticles(); } }
+             else { if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); } }
+         };
+         const observer = new IntersectionObserver(observerCallback, { threshold: 0 });
+         if (document.body && canvas) observer.observe(document.body);
+         window.addEventListener('resize', () => { if (animationFrameId && canvas) { resizeCanvas(); } });
+
+
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('nav a[href^="#"], .hero a[href^="#"], .price-card a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Define qual plano foi clicado ao rolar para o contato vindo dos planos
+                    const proButton = this.closest('.price-card.pro-card');
+                    const enterpriseButton = this.closest('.price-card.enterprise-card');
+                    const planoInteresseInput = document.getElementById('planoInteresse');
+
+                    if (proButton && planoInteresseInput) {
+                         planoInteresseInput.value = 'Pro (Chatbot)';
+                    } else if (enterpriseButton && planoInteresseInput) {
+                         planoInteresseInput.value = 'Enterprise Custom';
+                    } else if (planoInteresseInput) {
+                        // Se clicou no hero ou nav, talvez limpar ou deixar padrão
+                        // planoInteresseInput.value = 'Geral';
+                    }
+
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+
+        // Form Submission Handling (Envia para backend local Node.js)
+        const form = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+        const planoInteresseInputForSubmit = document.getElementById('planoInteresse'); // Garante que pega o input correto
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            if (!form || !formStatus || !planoInteresseInputForSubmit) return; // Safety check
+
+            formStatus.textContent = 'Enviando...';
+            formStatus.className = '';
+            const submitButton = form.querySelector('button[type="submit"]');
+            if (submitButton) submitButton.disabled = true;
+
+            const formData = {
+                email: form.elements['email'].value,
+                whatsapp: form.elements['whatsapp'].value,
+                interest: planoInteresseInputForSubmit.value || 'Não especificado via botão'
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/lead', { // ENDPOINT NODE.JS
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    formStatus.textContent = "Obrigado! Entraremos em contato em breve.";
+                    formStatus.classList.add('success');
+                    form.reset();
+                    planoInteresseInputForSubmit.value = ''; // Limpa o campo oculto após sucesso
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Falha ao enviar formulário.');
+                }
+            } catch (error) {
+                console.error("Form submission error:", error);
+                formStatus.textContent = `Oops! Erro ao enviar: ${error.message}. Tente novamente ou contate-nos.`;
+                formStatus.classList.add('error');
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+                setTimeout(() => { if(formStatus) { formStatus.textContent = ''; formStatus.className = '';} }, 7000);
+            }
+        }
+         if (form) form.addEventListener("submit", handleSubmit);
+
+        console.log("Odysseus AI Static Frontend Initialized.");
+
+    </script>
+</body>
+</html>
