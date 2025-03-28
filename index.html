@@ -67,7 +67,9 @@
         #contactFormContainer { background: var(--bg-surface); padding: 3rem; border-radius: 12px; border: 1px solid var(--accent-border); max-width: 550px; margin: 3rem auto 0; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); }
         .form-field { margin-bottom: 1.5rem; }
         .form-field label { display: block; margin-bottom: 0.6rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
-        .form-field input { width: 100%; padding: 1rem; background: var(--bg-deep-space); border: 1px solid rgba(77, 255, 255, 0.25); border-radius: 8px; color: var(--text-primary); transition: border-color 0.3s, box-shadow 0.3s; font-size: 1rem; }
+        /* Ensure inputs have name attributes */
+        .form-field input[type="email"],
+        .form-field input[type="tel"] { width: 100%; padding: 1rem; background: var(--bg-deep-space); border: 1px solid rgba(77, 255, 255, 0.25); border-radius: 8px; color: var(--text-primary); transition: border-color 0.3s, box-shadow 0.3s; font-size: 1rem; }
         .form-field input:focus { outline: none; border-color: var(--primary-cyan); box-shadow: 0 0 0 3px rgba(77, 255, 255, 0.1); }
         #formStatus { margin-top: 1.5rem; text-align: center; font-weight: 500; min-height: 20px; }
         .success { color: #4dff88; }
@@ -82,7 +84,6 @@
     </style>
 </head>
 <body>
-    <!-- Animação de Fundo -->
     <canvas id="particleCanvas"></canvas>
 
     <div class="container">
@@ -96,7 +97,8 @@
         </header>
 
         <main>
-            <section class="hero">
+            <!-- Hero, Capabilities, How it Works, Pricing Sections remain unchanged -->
+             <section class="hero">
                 <div class="hero-content">
                     <h1><span>Automatize Análises</span>, Acelere Decisões Financeiras com IA</h1>
                     <p>Nossa plataforma de IA executa análises complexas de mercado, ativos e portfólios em minutos, liberando sua equipe para focar na estratégia e reduzir custos operacionais.</p>
@@ -198,22 +200,27 @@
                  </div>
             </section>
 
+
             <section class="content-section contact-section" id="contact">
                 <h2 class="section-title">Comece a Automatizar Suas Análises</h2>
                 <p class="section-subtitle">Reduza custos e acelere suas decisões. Preencha seus dados e descubra como a Odysseus AI pode transformar sua eficiência.</p>
                 <div id="contactFormContainer">
+                    <!-- Form remains the same, ID is important for JS -->
                     <form id="contactForm">
                         <div class="form-field">
                             <label for="email">Email Profissional:</label>
+                            <!-- Ensure name attribute exists -->
                             <input type="email" id="email" name="email" required placeholder="nome@suaempresa.com">
                         </div>
                         <div class="form-field">
                             <label for="whatsapp">WhatsApp (com DDD):</label>
+                            <!-- Ensure name attribute exists -->
                             <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Ex: 11987654321">
                         </div>
+                         <!-- Ensure name attribute exists -->
                         <input type="hidden" name="plano_interesse" id="planoInteresse" value="">
                         <button type="submit" class="btn" style="width: 100%;">Solicitar Contato</button>
-                        <p id="formStatus"></p>
+                        <p id="formStatus"></p> <!-- Status message element -->
                     </form>
                 </div>
             </section>
@@ -228,9 +235,9 @@
     </footer>
 
     <script>
-        // Particle Animation Script (Mantido)
+        // --- Particle Animation Script (Unchanged) ---
         const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas?.getContext('2d'); // Adiciona verificação
+        const ctx = canvas?.getContext('2d');
         let particles = [];
         let animationFrameId;
 
@@ -274,7 +281,6 @@
             animationFrameId = requestAnimationFrame(handleParticles);
         }
 
-        // Start/Stop animation based on visibility
          const observerCallback = (entries) => {
              if (!canvas) return;
              const entry = entries[0];
@@ -285,15 +291,13 @@
          if (document.body && canvas) observer.observe(document.body);
          window.addEventListener('resize', () => { if (animationFrameId && canvas) { resizeCanvas(); } });
 
-
-        // Smooth Scroll for Navigation Links
+        // --- Smooth Scroll Script (Unchanged) ---
         document.querySelectorAll('nav a[href^="#"], .hero a[href^="#"], .price-card a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // Define qual plano foi clicado ao rolar para o contato vindo dos planos
                     const proButton = this.closest('.price-card.pro-card');
                     const enterpriseButton = this.closest('.price-card.enterprise-card');
                     const planoInteresseInput = document.getElementById('planoInteresse');
@@ -302,9 +306,9 @@
                          planoInteresseInput.value = 'Pro (Chatbot)';
                     } else if (enterpriseButton && planoInteresseInput) {
                          planoInteresseInput.value = 'Enterprise Custom';
-                    } else if (planoInteresseInput) {
-                        // Se clicou no hero ou nav, talvez limpar ou deixar padrão
-                        // planoInteresseInput.value = 'Geral';
+                    } else if (planoInteresseInput && targetId !== '#contact') {
+                         // Clear if navigating away from pricing before hitting contact
+                         // planoInteresseInput.value = ''; // Optional: Reset if needed
                     }
 
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -312,54 +316,83 @@
             });
         });
 
-        // Form Submission Handling (Envia para backend local Node.js)
+        // --- MODIFIED Form Submission Handling (AJAX for Formspree) ---
         const form = document.getElementById('contactForm');
         const formStatus = document.getElementById('formStatus');
-        const planoInteresseInputForSubmit = document.getElementById('planoInteresse'); // Garante que pega o input correto
+        // Hidden input is part of the form, so FormData will pick it up if it has a name attribute
+        const planoInteresseInputForSubmit = document.getElementById('planoInteresse');
 
         async function handleSubmit(event) {
             event.preventDefault();
-            if (!form || !formStatus || !planoInteresseInputForSubmit) return; // Safety check
+            // Safety check remains useful
+            if (!form || !formStatus) return;
 
             formStatus.textContent = 'Enviando...';
-            formStatus.className = '';
+            formStatus.className = ''; // Reset classes
             const submitButton = form.querySelector('button[type="submit"]');
             if (submitButton) submitButton.disabled = true;
 
-            const formData = {
-                email: form.elements['email'].value,
-                whatsapp: form.elements['whatsapp'].value,
-                interest: planoInteresseInputForSubmit.value || 'Não especificado via botão'
-            };
+            // Use FormData for easier handling, ensure input fields have 'name' attributes
+            const formData = new FormData(form);
+            // Optional: Add extra fields if needed, like origin
+            // formData.append('_origin', 'Analise Page');
 
             try {
-                const response = await fetch('http://localhost:3000/api/lead', { // ENDPOINT NODE.JS
+                const response = await fetch('https://formspree.io/f/xldjwbba', { // <-- YOUR FORMSPREE URL HERE
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                    body: formData, // Send FormData directly
+                    headers: {
+                        'Accept': 'application/json' // Request JSON response from Formspree
+                    }
                 });
 
                 if (response.ok) {
                     formStatus.textContent = "Obrigado! Entraremos em contato em breve.";
                     formStatus.classList.add('success');
-                    form.reset();
-                    planoInteresseInputForSubmit.value = ''; // Limpa o campo oculto após sucesso
+                    form.reset(); // Reset form fields
+                    // Optionally reset hidden field if needed, though form.reset() might do it
+                    if (planoInteresseInputForSubmit) planoInteresseInputForSubmit.value = '';
                 } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Falha ao enviar formulário.');
+                    // Try to parse error from Formspree JSON response
+                    let errorMsg = 'Falha ao enviar formulário.';
+                    try {
+                         const errorData = await response.json();
+                         if (errorData && errorData.errors) {
+                             // Concatenate multiple errors if Formspree sends them
+                             errorMsg = errorData.errors.map(err => err.message || err.error).join(', ');
+                         } else if (errorData && errorData.error) {
+                             // Single error message
+                             errorMsg = errorData.error;
+                         } else {
+                             // Fallback to HTTP status if no JSON error message
+                             errorMsg = `Erro ${response.status}: ${response.statusText}`;
+                         }
+                    } catch (parseError) {
+                         // If response wasn't JSON, use status text
+                         errorMsg = `Erro ${response.status}: ${response.statusText}`;
+                    }
+                     throw new Error(errorMsg); // Throw the specific error
                 }
             } catch (error) {
                 console.error("Form submission error:", error);
-                formStatus.textContent = `Oops! Erro ao enviar: ${error.message}. Tente novamente ou contate-nos.`;
+                // Display the specific error message caught
+                formStatus.textContent = `Oops! Erro ao enviar: ${error.message}. Tente novamente.`;
                 formStatus.classList.add('error');
             } finally {
+                // Re-enable button regardless of success or error
                 if (submitButton) submitButton.disabled = false;
+                // Clear status message after a delay
                 setTimeout(() => { if(formStatus) { formStatus.textContent = ''; formStatus.className = '';} }, 7000);
             }
         }
-         if (form) form.addEventListener("submit", handleSubmit);
 
-        console.log("Odysseus AI Static Frontend Initialized.");
+        // Attach the event listener only if the form exists
+         if (form) {
+             form.addEventListener("submit", handleSubmit);
+         }
+
+        // Update console log message if desired
+        console.log("Odysseus AI Frontend with Formspree Initialized.");
 
     </script>
 </body>
