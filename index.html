@@ -6,7 +6,7 @@
     <title>Odysseus AI | Automatize Análises, Acelere Decisões</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos permanecem os mesmos */
+        /* Estilos permanecem os mesmos da versão anterior */
         :root {
             --bg-deep-space: #0a0f1a;
             --bg-surface: #111827;
@@ -67,6 +67,7 @@
         #contactFormContainer { background: var(--bg-surface); padding: 3rem; border-radius: 12px; border: 1px solid var(--accent-border); max-width: 550px; margin: 3rem auto 0; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); }
         .form-field { margin-bottom: 1.5rem; }
         .form-field label { display: block; margin-bottom: 0.6rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
+        /* Ensure inputs have name attributes */
         .form-field input[type="email"],
         .form-field input[type="tel"] { width: 100%; padding: 1rem; background: var(--bg-deep-space); border: 1px solid rgba(77, 255, 255, 0.25); border-radius: 8px; color: var(--text-primary); transition: border-color 0.3s, box-shadow 0.3s; font-size: 1rem; }
         .form-field input:focus { outline: none; border-color: var(--primary-cyan); box-shadow: 0 0 0 3px rgba(77, 255, 255, 0.1); }
@@ -81,8 +82,6 @@
         @media (max-width: 992px) { .hero { flex-direction: column; text-align: center; } .hero-content { order: 2; } .hero-visual { order: 1; max-width: 450px; margin-bottom: 2rem;} .hero h1 { font-size: 2.5rem; } .pricing-grid { grid-template-columns: 1fr; max-width: 500px; } }
         @media (max-width: 768px) { body { font-size: 15px; } header { margin-bottom: 1rem; flex-direction: column; gap: 1rem;} nav { margin-top: 1rem; } .hero { min-height: auto; padding: 2rem 0;} .hero h1 { font-size: 2.1rem; } .content-section { padding: 3rem 0; } .section-title { font-size: 1.9rem; } .section-subtitle { margin-bottom: 2.5rem; } .pricing-section { padding: 3rem 0; } .contact-section { padding: 3rem 0; } .pricing-grid { gap: 1.5rem; } }
     </style>
-    <!-- ADD UMAMI SCRIPT TAG HERE -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="53433cbe-ffea-43ad-a795-10c4ae4a354b"></script>
 </head>
 <body>
     <canvas id="particleCanvas"></canvas>
@@ -98,94 +97,135 @@
         </header>
 
         <main>
-            <!-- Hero Section -->
-             <section class="hero" id="hero"> <!-- Add ID for section tracking -->
+            <!-- Hero, Capabilities, How it Works, Pricing Sections remain unchanged -->
+             <section class="hero">
                 <div class="hero-content">
                     <h1><span>Automatize Análises</span>, Acelere Decisões Financeiras com IA</h1>
                     <p>Nossa plataforma de IA executa análises complexas de mercado, ativos e portfólios em minutos, liberando sua equipe para focar na estratégia e reduzir custos operacionais.</p>
-                    <a href="#pricing" class="btn" id="heroCtaBtn">Ver Planos de Eficiência</a>
+                    <a href="#pricing" class="btn">Ver Planos de Eficiência</a>
                 </div>
                 <div class="hero-visual">
                     <img src="placeholder-agent-network.gif" alt="Odysseus AI - Acelerando Análises Financeiras">
                 </div>
             </section>
 
-            <!-- Capabilities Section -->
             <section class="content-section" id="capabilities">
                 <h2 class="section-title">Sua Equipe de Análise Aumentada por IA</h2>
                 <p class="section-subtitle">Delegue tarefas analíticas demoradas para nossos agentes de IA e ganhe velocidade e profundidade incomparáveis.</p>
                 <div class="features-grid">
-                    <!-- Feature cards -->
-                    <div class="feature-card"><div class="icon">📡</div><h4>Inteligência de Mercado Automatizada</h4><p>...</p></div>
-                    <div class="feature-card"><div class="icon">💡</div><h4>Prospecção Acelerada de Ativos</h4><p>...</p></div>
-                    <div class="feature-card"><div class="icon">⚙️</div><h4>Otimização de Portfólio Instantânea</h4><p>...</p></div>
-                    <div class="feature-card"><div class="icon">🌍</div><h4>Visão Macro Sob Demanda</h4><p>...</p></div>
-                    <div class="feature-card"><div class="icon">💬</div><h4>Seu Analista no Chat (Plano Pro)</h4><p>...</p></div>
-                    <div class="feature-card"><div class="icon">🧩</div><h4>Automação de Processos (Enterprise)</h4><p>...</p></div>
+                    <div class="feature-card">
+                        <div class="icon">📡</div>
+                        <h4>Inteligência de Mercado Automatizada</h4>
+                        <p>Monitore mercado 24/7 sem esforço manual. IA filtra ruído, resume notícias, eventos e dados, entregando o essencial para sua estratégia rapidamente.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">💡</div>
+                        <h4>Prospecção Acelerada de Ativos</h4>
+                        <p>Automatize a prospecção. IA identifica e pré-analisa milhares de ativos globalmente, acelerando sua busca por oportunidades e reduzindo tempo de pesquisa.</p>
+                    </div>
+                    <div class="feature-card">
+                         <div class="icon">⚙️</div>
+                        <h4>Otimização de Portfólio Instantânea</h4>
+                        <p>Modele e otimize carteiras em minutos, não dias. Teste cenários e estratégias (MVO, HRP, CVaR) com agilidade para decisões mais rápidas.</p>
+                    </div>
+                    <div class="feature-card">
+                         <div class="icon">🌍</div>
+                        <h4>Visão Macro Sob Demanda</h4>
+                        <p>Obtenha análises macro e setoriais concisas e acionáveis quando precisar. Nossa IA sintetiza dados complexos para apoiar seu posicionamento estratégico.</p>
+                    </div>
+                     <div class="feature-card">
+                         <div class="icon">💬</div>
+                        <h4>Seu Analista no Chat (Plano Pro)</h4>
+                        <p>Peça análises complexas via chat (WhatsApp/Web) como se estivesse delegando a um analista dedicado, economizando tempo e recursos.</p>
+                    </div>
+                     <div class="feature-card">
+                         <div class="icon">🧩</div>
+                        <h4>Automação de Processos (Enterprise)</h4>
+                        <p>Substitua planilhas e processos manuais de análise. Automatizamos desde a coleta de dados até relatórios, reduzindo custos operacionais e erros.</p>
+                    </div>
                 </div>
             </section>
 
-            <!-- How it Works Section -->
             <section class="content-section" id="how-it-works">
                 <h2 class="section-title">Integração Rápida, Valor Imediato</h2>
                 <p class="section-subtitle">Implementamos a inteligência artificial de forma prática para gerar resultados tangíveis em sua operação.</p>
                  <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); max-width: 900px; margin: 0 auto;">
-                    <!-- Step cards -->
-                     <div class="feature-card"> <div class="icon">1️⃣</div> <h4>Entendimento</h4> <p>...</p> </div>
-                     <div class="feature-card"> <div class="icon">2️⃣</div> <h4>Implementação</h4> <p>...</p> </div>
-                     <div class="feature-card"> <div class="icon">3️⃣</div> <h4>Resultados</h4> <p>...</p> </div>
+                    <div class="feature-card"> <div class="icon">1️⃣</div> <h4>Entendimento</h4> <p>Mapeamos seus desafios e gargalos analíticos para definir onde a automação com IA trará maior eficiência e economia.</p> </div>
+                     <div class="feature-card"> <div class="icon">2️⃣</div> <h4>Implementação</h4> <p>Configuramos e integramos as soluções Odysseus AI (Chatbot ou Custom) de forma ágil no seu fluxo de trabalho.</p> </div>
+                     <div class="feature-card"> <div class="icon">3️⃣</div> <h4>Resultados</h4> <p>Você acelera decisões, reduz custos com tarefas manuais e libera sua equipe para atividades de maior valor estratégico.</p> </div>
                 </div>
             </section>
 
-            <!-- Pricing Section -->
             <section class="pricing-section" id="pricing">
                  <div class="container">
                     <h2 class="section-title">Potencialize sua Equipe</h2>
                     <p class="section-subtitle">Escolha como a automação inteligente da Odysseus AI pode otimizar seu tempo e seus custos.</p>
                     <div class="pricing-grid">
-                        <!-- Pro Plan Card -->
                         <div class="price-card pro-card">
                             <h3>Plano Pro (Chatbot)</h3>
-                            <div class="price">R$ 350</div><span class="price-freq">por mês</span>
-                            <p class="description">...</p>
-                            <ul><li>...</li></ul>
-                            <a href="#contact" class="btn" id="proPlanBtn">Solicitar Acesso Pro</a>
+                            <div class="price">R$ 350</div>
+                            <span class="price-freq">por mês</span>
+                            <p class="description">Seu analista de IA sob demanda via chat (WhatsApp/Web). Automatize suas consultas e obtenha análises (mercado, ativos, portfólio) instantaneamente, reduzindo o tempo gasto em pesquisa manual.</p>
+                            <ul>
+                                <li>Inteligência de Mercado via Chat</li>
+                                <li>Análise de Ativos Sob Demanda</li>
+                                <li>Exploração de Ideias de Investimento</li>
+                                <li>Otimização de Portfólios (até 15 ativos)</li>
+                                <li>Consultas Macro e Setoriais</li>
+                                <li>Histórico de Análises no Chat</li>
+                                <li>Suporte Padrão</li>
+                            </ul>
+                            <a href="#contact" class="btn">Solicitar Acesso Pro</a>
                         </div>
-                        <!-- Enterprise Plan Card -->
+
                         <div class="price-card enterprise-card">
-                             <span style="...">CUSTOMIZADO</span>
+                             <span style="position: absolute; top: 10px; right: 10px; background: var(--secondary-purple); color: white; padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; font-weight: 600;">CUSTOMIZADO</span>
                             <h3>Plano Enterprise</h3>
-                            <div class="price">Sob Consulta</div><span class="price-freq">Valor definido por projeto</span>
-                             <p class="description">...</p>
-                            <ul><li>...</li></ul>
-                            <a href="#contact" class="btn btn-secondary" id="enterprisePlanBtn" style="border-color: var(--secondary-purple); color: #a78bfa;">Discutir Projeto Enterprise</a>
+                            <div class="price">Sob Consulta</div>
+                            <span class="price-freq">Valor definido por projeto</span>
+                             <p class="description">Transforme sua operação. Mapeamos seus processos e automatizamos workflows analíticos inteiros, gerando eficiência e economia de custos em escala.</p>
+                            <ul>
+                                <li>**Tudo do Plano Pro, mais:**</li>
+                                <li>Automação Completa de Workflows</li>
+                                <li>Integração via API</li>
+                                <li>Dashboards e Relatórios Customizados</li>
+                                <li>IA Treinada para suas Necessidades</li>
+                                <li>Consultoria de Otimização de Processos</li>
+                                <li>Suporte Dedicado e SLA</li>
+                                <li>Volume e Complexidade Ilimitados (negociável)</li>
+                            </ul>
+                            <a href="#contact" class="btn btn-secondary" style="border-color: var(--secondary-purple); color: #a78bfa;">Discutir Projeto Enterprise</a>
                         </div>
                     </div>
                  </div>
             </section>
 
-            <!-- Contact Section -->
+
             <section class="content-section contact-section" id="contact">
                 <h2 class="section-title">Comece a Automatizar Suas Análises</h2>
                 <p class="section-subtitle">Reduza custos e acelere suas decisões. Preencha seus dados e descubra como a Odysseus AI pode transformar sua eficiência.</p>
                 <div id="contactFormContainer">
+                    <!-- Form remains the same, ID is important for JS -->
                     <form id="contactForm">
                         <div class="form-field">
                             <label for="email">Email Profissional:</label>
+                            <!-- Ensure name attribute exists -->
                             <input type="email" id="email" name="email" required placeholder="nome@suaempresa.com">
                         </div>
                         <div class="form-field">
                             <label for="whatsapp">WhatsApp (com DDD):</label>
+                            <!-- Ensure name attribute exists -->
                             <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Ex: 11987654321">
                         </div>
+                         <!-- Ensure name attribute exists -->
                         <input type="hidden" name="plano_interesse" id="planoInteresse" value="">
                         <button type="submit" class="btn" style="width: 100%;">Solicitar Contato</button>
-                        <p id="formStatus"></p>
+                        <p id="formStatus"></p> <!-- Status message element -->
                     </form>
                 </div>
             </section>
         </main>
-    </div>
+    </div> <!-- Fim .container principal -->
 
     <footer>
         <div class="container">
@@ -200,8 +240,6 @@
         const ctx = canvas?.getContext('2d');
         let particles = [];
         let animationFrameId;
-        // ... (particle animation functions: resizeCanvas, Particle class, initParticles, handleParticles, observerCallback) ...
-        // Retained for brevity, assume unchanged from previous correct version
 
         function resizeCanvas() { if(canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } }
 
@@ -268,159 +306,93 @@
                          planoInteresseInput.value = 'Pro (Chatbot)';
                     } else if (enterpriseButton && planoInteresseInput) {
                          planoInteresseInput.value = 'Enterprise Custom';
+                    } else if (planoInteresseInput && targetId !== '#contact') {
+                         // Clear if navigating away from pricing before hitting contact
+                         // planoInteresseInput.value = ''; // Optional: Reset if needed
                     }
+
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             });
         });
 
-        // --- Form Submission Handling (AJAX for Formspree - Unchanged) ---
+        // --- MODIFIED Form Submission Handling (AJAX for Formspree) ---
         const form = document.getElementById('contactForm');
         const formStatus = document.getElementById('formStatus');
+        // Hidden input is part of the form, so FormData will pick it up if it has a name attribute
         const planoInteresseInputForSubmit = document.getElementById('planoInteresse');
 
         async function handleSubmit(event) {
             event.preventDefault();
+            // Safety check remains useful
             if (!form || !formStatus) return;
 
             formStatus.textContent = 'Enviando...';
-            formStatus.className = '';
+            formStatus.className = ''; // Reset classes
             const submitButton = form.querySelector('button[type="submit"]');
             if (submitButton) submitButton.disabled = true;
 
+            // Use FormData for easier handling, ensure input fields have 'name' attributes
             const formData = new FormData(form);
-             // Add origin for clarity in Formspree submission data
-             formData.append('_origin', 'Analise Page');
-
-             // Add Umami tracking for form submission attempt
-             if (typeof umami !== 'undefined') {
-                 umami.track('Form Submit Attempt', { formId: 'analiseContact' });
-             }
+            // Optional: Add extra fields if needed, like origin
+            // formData.append('_origin', 'Analise Page');
 
             try {
-                const response = await fetch('https://formspree.io/f/xldjwbba', { // YOUR ANALISE FORMSPREE URL
+                const response = await fetch('https://formspree.io/f/xldjwbba', { // <-- YOUR FORMSPREE URL HERE
                     method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
+                    body: formData, // Send FormData directly
+                    headers: {
+                        'Accept': 'application/json' // Request JSON response from Formspree
+                    }
                 });
 
                 if (response.ok) {
                     formStatus.textContent = "Obrigado! Entraremos em contato em breve.";
                     formStatus.classList.add('success');
-                    form.reset();
+                    form.reset(); // Reset form fields
+                    // Optionally reset hidden field if needed, though form.reset() might do it
                     if (planoInteresseInputForSubmit) planoInteresseInputForSubmit.value = '';
-
-                    // Add Umami tracking for form submission success
-                     if (typeof umami !== 'undefined') {
-                         umami.track('Form Submit Success', { formId: 'analiseContact' });
-                     }
-
                 } else {
+                    // Try to parse error from Formspree JSON response
                     let errorMsg = 'Falha ao enviar formulário.';
                     try {
                          const errorData = await response.json();
-                         if (errorData && errorData.errors) { errorMsg = errorData.errors.map(err => err.message || err.error).join(', '); }
-                         else if (errorData && errorData.error) { errorMsg = errorData.error; }
-                         else { errorMsg = `Erro ${response.status}: ${response.statusText}`; }
-                    } catch (parseError) { errorMsg = `Erro ${response.status}: ${response.statusText}`; }
-
-                     // Add Umami tracking for form submission error
-                     if (typeof umami !== 'undefined') {
-                         umami.track('Form Submit Error', { formId: 'analiseContact', error: errorMsg });
-                     }
-                     throw new Error(errorMsg);
+                         if (errorData && errorData.errors) {
+                             // Concatenate multiple errors if Formspree sends them
+                             errorMsg = errorData.errors.map(err => err.message || err.error).join(', ');
+                         } else if (errorData && errorData.error) {
+                             // Single error message
+                             errorMsg = errorData.error;
+                         } else {
+                             // Fallback to HTTP status if no JSON error message
+                             errorMsg = `Erro ${response.status}: ${response.statusText}`;
+                         }
+                    } catch (parseError) {
+                         // If response wasn't JSON, use status text
+                         errorMsg = `Erro ${response.status}: ${response.statusText}`;
+                    }
+                     throw new Error(errorMsg); // Throw the specific error
                 }
             } catch (error) {
                 console.error("Form submission error:", error);
+                // Display the specific error message caught
                 formStatus.textContent = `Oops! Erro ao enviar: ${error.message}. Tente novamente.`;
                 formStatus.classList.add('error');
-                 // Track caught exceptions if not already tracked as server error
-                 if (typeof umami !== 'undefined' && !error.message.includes('Erro ')) { // Avoid double tracking server errors
-                     umami.track('Form Submit Exception', { formId: 'analiseContact', error: error.message });
-                 }
             } finally {
+                // Re-enable button regardless of success or error
                 if (submitButton) submitButton.disabled = false;
+                // Clear status message after a delay
                 setTimeout(() => { if(formStatus) { formStatus.textContent = ''; formStatus.className = '';} }, 7000);
             }
         }
-        if (form) { form.addEventListener("submit", handleSubmit); }
 
-
-        // --- ADDED: Umami Analytics Tracking ---
-        try {
-             if (typeof umami !== 'undefined') {
-                 console.log("Umami analytics loaded for Analise page.");
-
-                 // Event tracking for CTAs (Add IDs to HTML elements if needed)
-                 const heroCtaBtn = document.getElementById('heroCtaBtn');
-                 if (heroCtaBtn) heroCtaBtn.addEventListener('click', () => umami.track('Hero CTA Clicked', { buttonText: heroCtaBtn.textContent }));
-
-                 const proPlanBtn = document.getElementById('proPlanBtn');
-                 if (proPlanBtn) proPlanBtn.addEventListener('click', () => umami.track('Pro Plan CTA Clicked'));
-
-                 const enterprisePlanBtn = document.getElementById('enterprisePlanBtn');
-                 if (enterprisePlanBtn) enterprisePlanBtn.addEventListener('click', () => umami.track('Enterprise Plan CTA Clicked'));
-
-                 // Navigation link tracking
-                 document.querySelectorAll('nav a').forEach(link => {
-                     link.addEventListener('click', () => {
-                         const section = link.getAttribute('href');
-                         if (section) umami.track('Nav Click', { section: section });
-                     });
-                 });
-
-                 // Scroll depth tracking
-                 let maxScroll = 0;
-                 const scrollDepthThresholds = [25, 50, 75, 90]; // Adjusted thresholds for longer page
-                 const triggeredThresholds = new Set();
-                 window.addEventListener('scroll', () => {
-                     const windowHeight = window.innerHeight;
-                     const documentHeight = document.documentElement.scrollHeight - windowHeight;
-                     if (documentHeight <= 0) return;
-                     const scrolled = window.scrollY;
-                     const currentScrollPercentage = Math.round((scrolled / documentHeight) * 100);
-                     maxScroll = Math.max(maxScroll, currentScrollPercentage);
-                     scrollDepthThresholds.forEach(threshold => {
-                         if (maxScroll >= threshold && !triggeredThresholds.has(threshold)) {
-                             umami.track('Scroll Depth', { depth: `${threshold}%` });
-                             triggeredThresholds.add(threshold);
-                         }
-                     });
-                 }, { passive: true });
-
-                 window.addEventListener('beforeunload', () => {
-                     umami.track('Final Scroll Depth', { maxDepth: `${maxScroll}%` });
-                 });
-
-                 // Section view tracking (Ensure sections have IDs)
-                 const observerOptions = { threshold: 0.3 }; // Trigger when 30% visible
-                 const sectionObserver = new IntersectionObserver((entries) => {
-                     entries.forEach(entry => {
-                         if (entry.isIntersecting && entry.target.id) {
-                             umami.track('Section Viewed', { section: entry.target.id });
-                             sectionObserver.unobserve(entry.target);
-                         }
-                     });
-                 }, observerOptions);
-
-                 // Add 'hero' section ID if not present for tracking
-                 const heroSection = document.querySelector('.hero');
-                 if (heroSection && !heroSection.id) heroSection.id = 'hero';
-
-                 ['hero', 'capabilities', 'how-it-works', 'pricing', 'contact'].forEach(sectionId => {
-                     const section = document.getElementById(sectionId);
-                     if (section) sectionObserver.observe(section);
-                     else console.warn(`Umami: Section with ID '${sectionId}' not found for tracking.`);
-                 });
-
-             } else {
-                 console.warn("Umami analytics object not found.");
-             }
-         } catch (error) {
-             console.error("Error initializing Umami tracking:", error);
+        // Attach the event listener only if the form exists
+         if (form) {
+             form.addEventListener("submit", handleSubmit);
          }
 
-        console.log("Odysseus AI Frontend with Formspree & Umami Initialized.");
+        // Update console log message if desired
+        console.log("Odysseus AI Frontend with Formspree Initialized.");
 
     </script>
 </body>
